@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Beloved Apu 💙</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background:linear-gradient(to right,#667eea,#764ba2);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+/* Header */
+h1{
+    font-family:'Pacifico', cursive;
+    font-size:32px;
+    margin-top:20px;
+}
+
+/* Lock Screen */
+#lockScreen{
+    position:fixed;
+    width:100%;
+    height:100vh;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.lockBox{
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+input{
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    font-family:'Poppins', sans-serif;
+    width:200px;
+    text-align:center;
+}
+
+button{
+    padding:12px 16px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* Main Content */
+#mainContent{
+    display:none;
+    padding:10px;
+}
+
+.message{
+    max-width:400px;
+    margin:10px auto;
+    font-size:18px;
+    line-height:1.6;
+    padding:0 15px;
+    min-height:140px;
+    white-space:pre-wrap;
+    font-family:'Poppins', sans-serif;
+}
+
+/* Slider */
+.slider{
+    width:90%;
+    max-width:380px;
+    margin:20px auto;
+    position:relative;
+}
+
+.slider img{
+    width:100%;
+    border-radius:20px;
+    display:none;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    transition: all 0.6s ease-in-out;
+}
+
+.active{
+    display:block !important;
+}
+
+/* Shake effect */
+.shake{
+    animation:shake 0.4s;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-10px);}
+    50%{transform:translateX(10px);}
+    75%{transform:translateX(-10px);}
+    100%{transform:translateX(0);}
+}
+
+/* Sparkles */
+.sparkle, .heart{
+    position:fixed;
+    border-radius:50%;
+    opacity:0.8;
+    animation:float 3s linear infinite;
+}
+
+.sparkle{
+    width:6px;
+    height:6px;
+    background:white;
+}
+
+.heart{
+    width:12px;
+    height:12px;
+    background:rgba(255,0,128,0.8);
+    transform:rotate(45deg);
+}
+
+/* float animation */
+@keyframes float{
+    0%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-50px) scale(0.5);}
+    100%{transform:translateY(-100px) scale(0);}
+}
+
+/* Responsive */
+@media (max-width:480px){
+    h1{font-size:28px;}
+    .message{font-size:16px;}
+    input{width:160px;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Lock Screen -->
+<div id="lockScreen">
+    <div class="lockBox">
+        <input type="password" id="passwordInput" placeholder="Enter password">
+        <button onclick="checkPassword()">→</button>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent">
+    <h1>My Precious Apu 💙</h1>
+
+    <div class="message" id="message"></div>
+
+    <div class="slider">
+        <img src="img1.jpg" class="active">
+        <img src="img2.jpg">
+        <img src="img3.jpg">
+        <img src="img4.jpg">
+        <img src="img5.jpg">
+    </div>
+
+    <!-- YouTube Embed as background music -->
+    <iframe width="0" height="0" 
+    src="https://www.youtube.com/embed/BEtDdiZNLqI?autoplay=1&loop=1&playlist=BEtDdiZNLqI" 
+    frameborder="0" allow="autoplay" allow="encrypted-media">
+    </iframe>
+</div>
+
+<audio id="wrongSound">
+    <source src="wrong.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const correctPassword = "amirini";
+const messageText = `Erin Jaman Rini 🤍
+
+জীবনে পথচলার জন্য কিছু মানুষের দরকার হয়,
+যারা ভালো সময়ে আনন্দ ভাগ করে নেয়
+আর খারাপ সময়ে হাতটা শক্ত করে ধরে রাখে।
+
+আপনি আমার জীবনে ঠিক তেমনই একজন মানুষ।
+আপনি পাশে থাকলে পথ কঠিন হলেও ভয় লাগে না।
+
+আপনার দোয়া, আপনার উপদেশ,
+আর আপনার নীরব সমর্থনই
+আমাকে প্রতিদিন একটু করে শক্ত করে তোলে।
+
+আল্লাহ আপনাকে সুস্থ, সুখী ও সম্মানিত রাখুন সবসময়। 💙`;
+
+let messageContainer = document.getElementById("message");
+let lockInput = document.getElementById("passwordInput");
+
+// Password Check
+function checkPassword(){
+    let input = lockInput.value;
+    if(input === correctPassword){
+        document.getElementById("lockScreen").style.display="none";
+        document.getElementById("mainContent").style.display="block";
+        typeMessage(messageText);
+        startEffects();
+    }else{
+        document.getElementById("wrongSound").play();
+        document.getElementById("lockScreen").classList.add("shake");
+        lockInput.value = "";
+        setTimeout(()=>{document.getElementById("lockScreen").classList.remove("shake");},400);
+    }
+}
+
+// Enter key support
+lockInput.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        checkPassword();
+    }
+});
+
+// Typing effect for message
+function typeMessage(text){
+    let i=0;
+    messageContainer.innerHTML="";
+    let interval = setInterval(()=>{
+        if(i<text.length){
+            messageContainer.innerHTML += text.charAt(i);
+            i++;
+        }else{
+            clearInterval(interval);
+        }
+    },30);
+}
+
+// Slider
+let slides = document.querySelectorAll(".slider img");
+let index = 0;
+setInterval(()=>{
+    if(document.getElementById("mainContent").style.display==="block"){
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+    }
+},3000);
+
+// Sparkles + Hearts
+function startEffects(){
+    setInterval(()=>{
+        let isHeart = Math.random()<0.3; // 30% chance heart
+        let elem = document.createElement("div");
+        elem.className = isHeart ? "heart" : "sparkle";
+        elem.style.left=Math.random()*100+"vw";
+        elem.style.top="100vh";
+        document.body.appendChild(elem);
+        setTimeout(()=>{elem.remove();},3000);
+    },200);
+}
+</script>
+
+</body>
+</html>
